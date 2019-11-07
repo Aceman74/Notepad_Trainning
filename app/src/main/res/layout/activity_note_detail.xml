@@ -6,12 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".NoteDetailActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimary"
+        app:title="Edition de note"/>
+
     <EditText
         style="@style/NoteTitleFont"
         android:id="@+id/title_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Titre de la note"/>
+        android:hint="Titre de la note"
+        android:layout_below="@+id/toolbar"/>
 
     <EditText
         android:id="@+id/text_detail"

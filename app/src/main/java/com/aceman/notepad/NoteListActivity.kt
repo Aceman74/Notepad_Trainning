@@ -18,6 +18,9 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.note_list_activity)
 
+        val toolbar = this.toolbar
+        setSupportActionBar(toolbar)
+
         notes = mutableListOf<Note>()
         notes.add(Note("Note 1", "Salut toi! comment tu vas depuis le temps? On te voit" +
                 " plus en soirée."))

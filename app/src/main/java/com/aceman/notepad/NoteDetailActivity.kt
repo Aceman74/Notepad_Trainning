@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_note_detail.*
+import kotlinx.android.synthetic.main.activity_note_detail.toolbar
+import kotlinx.android.synthetic.main.note_list_activity.*
 
 class NoteDetailActivity : AppCompatActivity() {
     companion object{
@@ -18,6 +20,10 @@ class NoteDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_detail)
+
+        val toolbar = this.toolbar
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         note = intent.getParcelableExtra(EXTRA_NOTE)
         noteIndex = intent.getIntExtra(EXTRA_NOTE_INDEX,-1)
