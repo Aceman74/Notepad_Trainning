@@ -14,6 +14,8 @@ class NoteDetailActivity : AppCompatActivity() {
         val EXTRA_NOTE = "note"
         val EXTRA_NOTE_INDEX = "noteIndex"
         val REQUEST_EDIT_NOTE = 101
+        val ACTION_SAVE_NOTE = "com.aceman.notepad.actions.ACTION_SAVE_NOTE"
+        val ACTION_DELETE_NOTE = "com.aceman.notepad.actions.ACTION_DELETE_NOTE"
     }
 
     lateinit var note: Note
@@ -61,7 +63,7 @@ class NoteDetailActivity : AppCompatActivity() {
         val confirmFragment = DeleteNoteDialogFragment(note.title)
         confirmFragment.listener = object : DeleteNoteDialogFragment.DeleteDialogListener {
             override fun onDialogPositiveCheck() {
-
+                deleteNote()
             }
 
             override fun onDialogNegativeCheck() {
@@ -73,8 +75,15 @@ class NoteDetailActivity : AppCompatActivity() {
     fun saveNote(){
         note.title = titleView.text.toString()
         note.text = textView.text.toString()
-        intent = Intent()
+        intent = Intent(ACTION_SAVE_NOTE)
         intent.putExtra(EXTRA_NOTE, note)
+        intent.putExtra(EXTRA_NOTE_INDEX,noteIndex)
+        setResult(Activity.RESULT_OK,intent)
+        finish()
+    }
+
+    fun deleteNote(){
+        intent = Intent(ACTION_DELETE_NOTE)
         intent.putExtra(EXTRA_NOTE_INDEX,noteIndex)
         setResult(Activity.RESULT_OK,intent)
         finish()
