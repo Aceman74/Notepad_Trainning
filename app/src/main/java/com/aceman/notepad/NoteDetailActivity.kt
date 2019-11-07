@@ -49,9 +49,27 @@ class NoteDetailActivity : AppCompatActivity() {
                 saveNote()
                 return true
             }
+            R.id.option_delete -> {
+                showConfirmDeleteDialog()
+                return true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
     }
+
+    private fun showConfirmDeleteDialog() {
+        val confirmFragment = DeleteNoteDialogFragment(note.title)
+        confirmFragment.listener = object : DeleteNoteDialogFragment.DeleteDialogListener {
+            override fun onDialogPositiveCheck() {
+
+            }
+
+            override fun onDialogNegativeCheck() {
+            }
+        }
+        confirmFragment.show(supportFragmentManager, "confirmDelete")
+    }
+
     fun saveNote(){
         note.title = titleView.text.toString()
         note.text = textView.text.toString()
