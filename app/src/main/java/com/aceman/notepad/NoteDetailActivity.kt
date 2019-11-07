@@ -3,11 +3,16 @@ package com.aceman.notepad
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.note_detail_activity.*
+import kotlinx.android.synthetic.main.note_detail_activity.toolbar
+import kotlinx.android.synthetic.main.note_list_activity.*
 
 class NoteDetailActivity : AppCompatActivity() {
     companion object {
@@ -76,7 +81,7 @@ class NoteDetailActivity : AppCompatActivity() {
         note.title = titleView.text.toString()
         note.text = textView.text.toString()
         intent = Intent(ACTION_SAVE_NOTE)
-        intent.putExtra(EXTRA_NOTE, note)
+        intent.putExtra(EXTRA_NOTE, note as Parcelable)
         intent.putExtra(EXTRA_NOTE_INDEX,noteIndex)
         setResult(Activity.RESULT_OK,intent)
         finish()

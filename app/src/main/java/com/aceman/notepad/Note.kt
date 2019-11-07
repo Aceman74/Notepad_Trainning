@@ -2,17 +2,17 @@ package com.aceman.notepad
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.io.Serializable
 
 /**
  * Created by Lionel JOFFRAY - on 07/11/2019.
  */
-data class Note(var title: String = "", var text: String = "", var fileName: String = ""): Parcelable {
+data class Note(var title: String = "", var text: String = "", var fileName: String = ""): Parcelable, Serializable {
 
     constructor(parcel: Parcel) : this(
             parcel.readString()!!,
             parcel.readString()!!,
-            parcel.readString()!!) {
-    }
+            parcel.readString()!!)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(title)
@@ -25,6 +25,7 @@ data class Note(var title: String = "", var text: String = "", var fileName: Str
     }
 
     companion object CREATOR : Parcelable.Creator<Note> {
+        private val serialVersionUid: Long = 42424242
         override fun createFromParcel(parcel: Parcel): Note {
             return Note(parcel)
         }
