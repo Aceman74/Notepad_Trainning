@@ -23,6 +23,8 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
         val toolbar = this.toolbar
         setSupportActionBar(toolbar)
 
+        this.create_note_ab.setOnClickListener(this)
+
         notes = mutableListOf<Note>()
         notes.add(Note("Note 1", "Salut toi! comment tu vas depuis le temps? On te voit" +
                 " plus en soirée."))
@@ -41,6 +43,13 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View) {
         if (view.tag != null)
             showNoteDetail(view.tag as Int)
+        when (view.id){
+            R.id.create_note_ab -> createNewNote()
+        }
+    }
+
+    private fun createNewNote() {
+        showNoteDetail(-1)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -59,12 +68,16 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun saveNote(note: Note, noteIndex: Int) {
+        if (noteIndex < 0){
+            notes.add(0,note)
+        }else{
         notes[noteIndex] = note
+        }
         adapter.notifyDataSetChanged()
     }
 
     private fun showNoteDetail(noteIndex: Int) {
-        val note = notes[noteIndex]
+        val note = if (noteIndex < 0) Note() else notes[noteIndex]
         val intent = Intent(this,NoteDetailActivity::class.java)
         intent.putExtra(NoteDetailActivity.EXTRA_NOTE, note)
         intent.putExtra(NoteDetailActivity.EXTRA_NOTE_INDEX,noteIndex)
