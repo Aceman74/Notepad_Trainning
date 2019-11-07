@@ -1,5 +1,6 @@
 package com.aceman.notepad
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 
@@ -13,6 +14,7 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var notes: MutableList<Note>
     lateinit var adapter: NoteAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,12 +43,32 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
             showNoteDetail(view.tag as Int)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode != Activity.RESULT_OK || data == null){
+            return
+        }
+        when (requestCode){
+            NoteDetailActivity.REQUEST_EDIT_NOTE -> processEditNoteResult(data)
+        }
+    }
+
+    private fun processEditNoteResult(data: Intent) {
+        val noteIndex = data.getIntExtra(NoteDetailActivity.EXTRA_NOTE_INDEX, -1)
+        val note = data.getParcelableExtra<Note>(NoteDetailActivity.EXTRA_NOTE)
+        saveNote(note,noteIndex)
+    }
+
+    private fun saveNote(note: Note, noteIndex: Int) {
+        notes[noteIndex] = note
+        adapter.notifyDataSetChanged()
+    }
+
     private fun showNoteDetail(noteIndex: Int) {
         val note = notes[noteIndex]
         val intent = Intent(this,NoteDetailActivity::class.java)
         intent.putExtra(NoteDetailActivity.EXTRA_NOTE, note)
         intent.putExtra(NoteDetailActivity.EXTRA_NOTE_INDEX,noteIndex)
-        startActivity(intent)
+        startActivityForResult(intent,NoteDetailActivity.REQUEST_EDIT_NOTE)
     }
 
 }
